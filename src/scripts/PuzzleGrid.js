@@ -7,7 +7,7 @@ export class PuzzleGrid {
         this.container = new PIXI.Container();
         this.container.x = window.innerWidth / 2;
         this.container.y = window.innerHeight / 2;
-
+        this.container.sortableChildren = true;
         this.createPuzzlePieces();
     }
 
