@@ -1,8 +1,9 @@
 import * as PIXI from 'pixi.js';
 import { Globals } from './Globals';
 
-export class PuzzlePiece {
+export class PuzzlePiece extends PIXI.utils.EventEmitter {
     constructor(id, field) {
+        super();
         this.sprite = new PIXI.Sprite(Globals.resources[`puzzle${id}`].texture);
 
         this.field = field;
@@ -50,11 +51,32 @@ export class PuzzlePiece {
     onTouchEnd() {
         this.dragging = false;
         this.sprite.zIndex = 0;
-        this.reset();
+        this.emit('dragend');
     }
 
     reset() {
         this.sprite.x = this.field.x;
         this.sprite.y = this.field.y;
+    }
+
+    get right() {
+        return this.sprite.x - this.sprite.width / 2;
+    }
+
+    get left() {
+        return this.sprite.x + this.sprite.width / 2;
+    }
+
+    get top() {
+        return this.sprite.y - this.sprite.height / 2;
+    }
+
+    get bottom() {
+        return this.sprite.y + this.sprite.height / 2;
+    }
+
+    setField(field) {
+        this.field = field;
+        this.reset();
     }
 }
